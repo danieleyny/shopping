@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Products </title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary:#f0f0f0;
+      --accent:#c9a75d;
+      --bg:#050507;
+      --card:#ffffff;
+      --spray:#34d197;
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+
+    body{
+      font-family:'Georgia', serif;
+      color:var(--primary);
+      line-height:1.6;
+      padding:30px;
+      overflow-x:hidden;
+      background: var(--bg);
+      position: relative;
+      isolation: isolate;
+    }
+
+    /* ===========================
+       BACK BUTTON
+       =========================== */
+    .back-btn {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      z-index: 100;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      display: flex;
+      align-items: center;
+      transition: all 0.4s ease;
+      background: rgba(0,0,0,0.3);
+      padding: 10px 15px;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .back-btn span {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      transition: transform 0.4s ease;
+    }
+
+    .back-btn:hover {
+      color: var(--spray);
+      border-color: var(--spray);
+      background: rgba(0,0,0,0.6);
+    }
+
+    .back-btn:hover span {
+      transform: translateX(-5px);
+    }
+
+    /* Hide button during preloader */
+    #preloader ~ .back-btn {
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+      animation-delay: 3.5s;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* Mobile adjustment */
+    @media (max-width: 768px) {
+      .back-btn {
+        top: 15px;
+        left: 15px;
+        padding: 8px 12px;
+        font-size: 0.7rem;
+      }
+    }
+
+    /* ===========================
+       PRELOADER (Spray Paint)
+       =========================== */
+    #preloader{
+      position:fixed;
+      inset:0;
+      z-index:99999;
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(circle at 50% 40%, #2a2a2a 0%, #171717 55%, #0d0d0d 100%);
+      transition: opacity .75s ease, visibility .75s ease;
+    }
+    #preloader.hidden{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+
+    #preloader::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      opacity:.18;
+      background:
+        radial-gradient(circle, rgba(255,255,255,.08) 1px, transparent 1.2px),
+        radial-gradient(circle, rgba(0,0,0,.18) 1px, transparent 1.3px);
+      background-size: 160px 160px, 260px 260px;
+      background-position: 0 0, 80px 60px;
+      filter: blur(.2px);
+      pointer-events:none;
+    }
+
+    .spray-stage{
+      position:relative;
+      width:min(980px, 92vw);
+      height:min(260px, 34vh);
+      display:grid;
+      place-items:center;
+      isolation:isolate;
+    }
+
+    .spray-bloom{
+      position:absolute;
+      inset:-30%;
+      z-index:0;
+      opacity:0;
+      background:
+        radial-gradient(circle at 30% 55%, rgba(52,209,151,.22), transparent 55%),
+        radial-gradient(circle at 65% 45%, rgba(52,209,151,.14), transparent 60%),
+        radial-gradient(circle at 55% 55%, rgba(255,255,255,.06), transparent 65%);
+      filter: blur(28px);
+      animation: bloom 2.6s ease forwards;
+    }
+
+    @keyframes bloom{
+      0%   { opacity:0; transform:translateX(-8%) scale(1.02); }
+      20%  { opacity:.65; }
+      100% { opacity:0.18; transform:translateX(8%) scale(1.06); }
+    }
+
+    .spray-cone{
+      position:absolute;
+      top:50%;
+      left:-12%;
+      width:40%;
+      height:70%;
+      transform: translateY(-50%) rotate(-6deg);
+      background: radial-gradient(circle at 20% 50%,
+        rgba(52,209,151,.18) 0%,
+        rgba(52,209,151,.08) 32%,
+        rgba(52,209,151,0) 70%);
+      filter: blur(18px);
+      opacity:0;
+      z-index:1;
+      animation: coneMove 2.6s ease forwards;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes coneMove{
+      0%   { opacity:0; left:-12%; }
+      12%  { opacity:.9; }
+      100% { opacity:.18; left:74%; }
+    }
+
+    .spray-svg{
+      width:100%;
+      height:100%;
+      z-index:2;
+      display:block;
+    }
+
+    .painted{
+      filter: drop-shadow(0 0 18px rgba(52,209,151,.28))
+              drop-shadow(0 0 44px rgba(52,209,151,.14));
+    }
+
+    .droplets{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:3;
+      opacity:0;
+      background:
+        radial-gradient(circle at 12% 58%, rgba(52,209,151,.55) 0 1px, transparent 2px),
+        radial-gradient(circle at 18% 52%, rgba(52,209,151,.45) 0 1px, transparent 2px),
+        radial-gradient(circle at 24% 62%, rgba(52,209,151,.50) 0 1px, transparent 2px),
+        radial-gradient(circle at 38% 48%, rgba(52,209,151,.40) 0 1px, transparent 2px),
+        radial-gradient(circle at 52% 60%, rgba(52,209,151,.45) 0 1px, transparent 2px),
+        radial-gradient(circle at 66% 50%, rgba(52,209,151,.38) 0 1px, transparent 2px),
+        radial-gradient(circle at 78% 60%, rgba(52,209,151,.42) 0 1px, transparent 2px),
+        radial-gradient(circle at 86% 52%, rgba(52,209,151,.36) 0 1px, transparent 2px);
+      filter: blur(.25px);
+      animation: droplets 2.6s ease forwards;
+    }
+
+    @keyframes droplets{
+      0% { opacity:0; transform:translateX(-10px); }
+      18%{ opacity:.9; }
+      100%{ opacity:.2; transform:translateX(12px); }
+    }
+
+    /* ===========================
+       Background layers
+       =========================== */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-25%;
+      z-index:-3;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 600px at 18% 28%, rgba(52,209,151,0.20), transparent 62%),
+        radial-gradient(900px 650px at 84% 72%, rgba(201,167,93,0.18), transparent 65%),
+        radial-gradient(700px 520px at 55% 40%, rgba(90,120,255,0.16), transparent 60%),
+        radial-gradient(1400px 900px at 50% 55%, rgba(255,255,255,0.03), transparent 55%),
+        linear-gradient(120deg, #040406 0%, #07070a 45%, #040406 100%);
+      background-size: 160% 160%;
+      animation: pools 22s ease-in-out infinite;
+      opacity: 1;
+      transform: translate3d(0,0,0);
+    }
+    @keyframes pools{
+      0%   { background-position: 0% 45%; }
+      50%  { background-position: 100% 55%; }
+      100% { background-position: 0% 45%; }
+    }
+
+    .topo{
+      position:fixed;
+      inset:-20%;
+      z-index:-2;
+      pointer-events:none;
+      opacity:0.55;
+      mix-blend-mode: screen;
+      transform: rotate(-8deg) scale(1.08);
+      transform-origin:center;
+      background:
+        repeating-radial-gradient(circle at 18% 28%,
+          rgba(52,209,151,0.00) 0px,
+          rgba(52,209,151,0.00) 18px,
+          rgba(52,209,151,0.10) 19px,
+          rgba(52,209,151,0.00) 22px
+        ),
+        repeating-radial-gradient(circle at 82% 70%,
+          rgba(201,167,93,0.00) 0px,
+          rgba(201,167,93,0.00) 22px,
+          rgba(201,167,93,0.09) 23px,
+          rgba(201,167,93,0.00) 27px
+        ),
+        repeating-radial-gradient(circle at 55% 38%,
+          rgba(90,120,255,0.00) 0px,
+          rgba(90,120,255,0.00) 26px,
+          rgba(90,120,255,0.07) 27px,
+          rgba(90,120,255,0.00) 31px
+        );
+      background-size: 120% 120%;
+      animation: topoDrift 18s ease-in-out infinite;
+    }
+    @keyframes topoDrift{
+      0%   { background-position: 0% 0%;   opacity:0.42; }
+      50%  { background-position: 100% 60%; opacity:0.60; }
+      100% { background-position: 0% 0%;   opacity:0.42; }
+    }
+
+    .finish{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(0,0,0,0) 26%, rgba(0,0,0,0.55) 78%, rgba(0,0,0,0.85) 100%),
+        radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: auto, 220px 220px, 380px 380px;
+      opacity: 0.95;
+      animation: grainMove 150s linear infinite;
+    }
+
+    .main-header{
+      text-align:center;
+      margin-bottom:80px;
+      padding:40px 0;
+      position:relative;
+      z-index:2;
+    }
+    .main-header h1{
+      font-size:3.5em;
+      font-weight:300;
+      letter-spacing:8px;
+      text-transform:uppercase;
+      text-shadow: 0 0 36px rgba(52,209,151,0.16), 0 0 70px rgba(201,167,93,0.12);
+    }
+
+    .catalog-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(320px,1fr));
+      gap:50px;
+      padding:0 5%;
+      position:relative;
+      z-index:2;
+    }
+
+    .product-card{
+      background:var(--card);
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 28px 70px rgba(0,0,0,0.85);
+      transition: transform .5s cubic-bezier(.2,1,.3,1),
+                  box-shadow .5s ease;
+      cursor:pointer;
+    }
+    .product-card:hover{
+      transform: translateY(-14px) scale(1.02);
+      box-shadow: 0 42px 95px rgba(52,209,151,0.12);
+    }
+
+    .product-image-container{
+      height:300px;
+      background:#f5f5f5;
+      overflow:hidden;
+    }
+    .product-image{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transition: transform .9s ease;
+    }
+    .product-card:hover .product-image{ transform: scale(1.12); }
+
+    .product-info{
+      padding:35px;
+      text-align:center;
+      color:#111;
+    }
+    .product-title{
+      font-size:1.6em;
+      font-weight:400;
+      margin-bottom:8px;
+      color: #000;
+    }
+    .product-description{
+      font-size:0.95em;
+      color:#555;
+      margin-bottom: 20px;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    .view-details-btn{
+      padding:12px 32px;
+      border:1px solid #ddd;
+      background:transparent;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      font-size:.75em;
+      cursor:pointer;
+      transition:.25s;
+    }
+    .view-details-btn:hover{
+      background:#000;
+      color:#fff;
+      border-color:#000;
+    }
+
+    .main-footer{
+      text-align:center;
+      margin-top:120px;
+      padding:60px;
+      color:#666;
+      font-size:.8em;
+      letter-spacing:3px;
+      position:relative;
+      z-index:2;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-btn">
+    <span>&larr;</span> Back
+  </a>
+
+  <div id="preloader">
+    <div class="spray-stage">
+      <div class="spray-bloom"></div>
+      <div class="spray-cone"></div>
+      <div class="droplets"></div>
+
+      <svg class="spray-svg" viewBox="0 0 1200 280" aria-hidden="true">
+        <defs>
+          <filter id="noise">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n">
+              <animate attributeName="seed" dur="2.6s" values="7;11;7" repeatCount="indefinite"/>
+            </feTurbulence>
+            <feColorMatrix in="n" type="matrix"
+              values="1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      0 0 0 18 -8" result="n2"/>
+          </filter>
+
+          <mask id="sprayMask">
+            <rect width="1200" height="280" fill="black"/>
+            <g filter="url(#noise)">
+              <ellipse id="sprayDot" cx="-120" cy="140" rx="170" ry="90" fill="white" opacity="0.95">
+                <animate attributeName="cx" dur="2.6s" values="-120;1320" fill="freeze"/>
+              </ellipse>
+            </g>
+          </mask>
+        </defs>
+
+        <g class="painted" mask="url(#sprayMask)">
+          <text x="50%" y="56%" text-anchor="middle" dominant-baseline="middle" font-family="Permanent Marker, cursive" font-size="110" fill="#34d197" letter-spacing="2">
+            Safe Consulting
+          </text>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="topo"></div>
+  <div class="finish"></div>
+
+  <header class="main-header">
+    <h1>Our Products</h1>
+    <p>Premium Custom Swag.</p>
+  </header>
+
+  <main class="catalog-grid">
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/portablecharger (1).png" alt="Portable Charger" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Portable Charger</h2>
+        <p class="product-description">High-capacity mobile power to keep your strategy moving in the field.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/circlehighlighter.png" alt="Circle Highlighter" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Circle Highlighter</h2>
+        <p class="product-description">An ergonomic circular marking tool for fluid highlighting and bold document review.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/fishhighlighter.png" alt="Fish Highlighter" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Fish Highlighter</h2>
+        <p class="product-description">A unique, aquatic-themed marking set designed for playful yet professional annotation.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/giftpack.png" alt="Gift Pack" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Gift Pack</h2>
+        <p class="product-description">The ultimate curated selection of aura essentials for the modern consulting lead.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/jumbohighlighter.png" alt="Jumbo Highlighter" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Jumbo Highlighter</h2>
+        <p class="product-description">Oversized grip and ink capacity for high-volume analysis and presentation marking.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/keychain.png" alt="Keychain" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Keychain</h2>
+        <p class="product-description">A durable and sleek industrial accessory to keep your office and vehicle keys secured.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/legominifigure.png" alt="Lego Minifigure" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Lego Minifigure</h2>
+        <p class="product-description">A custom-molded desktop companion representing the precision of a consultant.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/legoset.png" alt="Lego Set" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Lego Set</h2>
+        <p class="product-description">Strategic architectural build set for focus, creativity, and office display.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/lipbalm.png" alt="Lip Balm" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Lip Balm</h2>
+        <p class="product-description">Signature hydration therapy for the frequent traveler and professional speaker.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/matches.png" alt="Matches" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Matches</h2>
+        <p class="product-description">Premium safety matches housed in a custom branded collector box.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/minihighlighter.png" alt="Mini Highlighter" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Mini Highlighter</h2>
+        <p class="product-description">Compact precision marking tool that fits seamlessly into your travel kit.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/notebook.png" alt="Notebook" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Notebook</h2>
+        <p class="product-description">Archival quality paper with a soft-touch cover for all tactical meeting notes.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/rubberducks.png" alt="Rubber Ducks" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Rubber Ducks</h2>
+        <p class="product-description">Classic consultation desk tools for the rubber duck debugging methodology.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/towel.png" alt="Towel" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Towel</h2>
+        <p class="product-description">High-absorbency, luxury micro-fiber towel for travel and active lifestyle.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image-container">
+        <img src="./assetsconsulting/products/umbrella.png" alt="Umbrella" class="product-image">
+      </div>
+      <div class="product-info">
+        <h2 class="product-title">Umbrella</h2>
+        <p class="product-description">Wind-resistant, automated deployment umbrella for any climate encounter.</p>
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="main-footer">
+    <p>&copy; 2025 EYNY | SAFE CONSULTING</p>
+  </footer>
+
+  <script>
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      setTimeout(() => preloader.classList.add('hidden'), 3200);
+    });
+  </script>
+
+</body>
+</html>

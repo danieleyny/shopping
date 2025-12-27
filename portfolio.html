@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Consulting | Full Portfolio</title>
+    
+    <link rel="icon" type="image/png" href="./assetsconsulting/favicon.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles copied from index.html for consistency */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f0f0f; /* Near-Black Charcoal Charcoal Background */
+            color: #e4e4e7; /* Zinc-200 Light Text */
+            overflow-x: hidden;
+        }
+        /* Style for the current page link */
+        .nav-link.current::after {
+            width: 100%;
+            left: 0;
+        }
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #34d399; /* Emerald-400 */
+            transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        .card-glow {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .card-glow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px -12px rgba(52, 211, 153, 0.3), 0 10px 10px -5px rgba(52, 211, 153, 0.1);
+            border-color: #34d399; /* Emerald-400 */
+        }
+        
+        /* --- Scroll Animation Enhancements (Sleek) --- */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* --- LOGO GLITCH/STAGGER REVEAL (Copied from index.html) --- */
+        .logo-container {
+            display: inline-flex;
+            overflow: hidden; 
+            line-height: 1; 
+        }
+        .logo-glitch-reveal {
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            filter: blur(2px) contrast(1.2);
+            position: relative;
+            animation: glitch-snap 1.2s cubic-bezier(0.25, 0.45, 0.45, 0.94) forwards;
+        }
+        .logo-glitch-reveal:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        @keyframes glitch-snap {
+            0% {
+                opacity: 0;
+                transform: translateY(15px) rotate(2deg) skewX(5deg);
+                filter: blur(5px) contrast(1.5);
+                text-shadow: 0 0 5px rgba(52, 211, 153, 0.5);
+            }
+            30% {
+                opacity: 0.5;
+                transform: translateY(-5px) rotate(-1deg) skewX(-2deg);
+                filter: blur(1px) contrast(1);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(2px) rotate(0.5deg) skewX(1deg);
+                filter: blur(0.5px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotate(0) skewX(0);
+                filter: blur(0) contrast(1);
+                text-shadow: none;
+            }
+        }
+        
+        /* Mobile Menu Item Styling */
+        .mobile-nav-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-align: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .mobile-nav-item:hover {
+            background-color: #34d399; /* Emerald-400 */
+            color: #1f2937; /* Gray-900 */
+        }
+        /* Active/Current item style for emphasis */
+        .mobile-nav-item.current { 
+            background-color: #065f46; /* Emerald-800 */
+            color: #ffffff; /* White */
+        }
+        
+        #mobile-menu a {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .no-select-drag {
+            user-select: none; 
+            -webkit-user-select: none; 
+            -webkit-user-drag: none; 
+            -moz-user-select: none; 
+            -ms-user-select: none; 
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="sticky top-0 z-50 bg-zinc-900/95 backdrop-blur-sm shadow-xl">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex justify-between items-center">
+                
+                <a href="index.html#home" class="text-2xl font-extrabold tracking-tight logo-container flex items-center">
+                    <div class="hidden sm:inline-flex logo-container">
+                        <span class="logo-glitch-reveal text-emerald-400">Safe</span>
+                        <span class="logo-glitch-reveal text-white ml-2">Consulting</span>
+                    </div>
+
+                    <img 
+                        src="./assetsconsulting/favicon.png" 
+                        alt="Safe Consulting Logo" 
+                        class="w-10 h-8 sm:hidden logo-glitch-reveal" 
+                        style="animation-delay: 0.2s;"
+                    >
+                </a>
+
+                <div class="hidden lg:flex space-x-8 text-lg font-medium">
+                    <a href="index.html#services" class="nav-link hover:text-emerald-400">Our Services</a>
+                    <a href="index.html#value" class="nav-link hover:text-emerald-400">The Safe Edge</a>
+                    <a href="portfolio.html" class="nav-link current text-emerald-400">Full Portfolio</a> 
+                    <a href="index.html#contact" class="nav-link hover:text-emerald-400">Contact Us</a>
+                </div>
+
+                <div class="lg:hidden">
+                    <button id="menu-button" class="cursor-pointer p-2 transition duration-300 hover:text-emerald-400" aria-label="Toggle navigation menu">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="mobile-menu" class="hidden lg:hidden flex-col space-y-2 mt-4 w-full p-4 bg-zinc-800 rounded-xl shadow-2xl border border-zinc-700 transition-all duration-300 ease-in-out">
+                <a href="index.html#services" class="mobile-nav-item text-gray-100 bg-zinc-700/50">Our Services</a>
+                <a href="index.html#value" class="mobile-nav-item text-gray-100 bg-zinc-700/50">The Safe Edge</a>
+                <a href="portfolio.html" class="mobile-nav-item current text-gray-100">Full Portfolio</a>
+                <a href="index.html#contact" class="mobile-nav-item text-gray-100 bg-zinc-700/50">Contact Us</a>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="max-w-7xl mx-auto">
+
+        <section id="full-portfolio" class="py-20 px-4 sm:px-6 lg:px-8 bg-zinc-950 min-h-screen">
+            <div class="text-center mb-16 fade-in-section">
+                <h1 class="text-5xl font-extrabold text-white mb-4">The Safe Consulting <span class="text-emerald-400">Portfolio</span></h1>
+                <p class="text-xl text-zinc-400 max-w-4xl mx-auto">
+                    A selection of our custom product conceptualization and delivery projects, showcasing our commitment to high-utility, brand-aligned swag.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                
+                <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-700 card-glow fade-in-section delay-100">
+                    <div class="h-48 rounded-lg mb-4 overflow-hidden flex items-center justify-center bg-zinc-800"> 
+                        <img 
+                            src="./assetsconsulting/levant.png" 
+                            alt="Levant Logo Product Mockup (Construction Hard Hat)" 
+                            class="w-full h-full object-cover no-select-drag" 
+                            onerror="this.onerror=null;this.src='https://placehold.co/400x300/3f3f46/d4d4d8?text=Levant+Hard+Hat'"
+                        >
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Levant - Branded Hard Hat</h4>
+                    <p class="text-sm text-zinc-400">**Industry:** Construction/Real Estate. High-quality, customizable hard hats with the Levant logo for site safety and brand visibility. **Focus:** Durability & Compliance.</p>
+                </div>
+                
+                <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-700 card-glow fade-in-section delay-200">
+                    <div class="h-48 rounded-lg mb-4 overflow-hidden flex items-center justify-center bg-zinc-800">
+                        <img 
+                            src="./assetsconsulting/laundryday.png" 
+                            alt="Laundry Day NYC Logo Product Mockup (Tote Bag)" 
+                            class="w-full h-full object-cover no-select-drag" 
+                            onerror="this.onerror=null;this.src='https://placehold.co/400x300/3f3f46/d4d4d8?text=Laundry+Day+Tote'"
+                        >
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Laundry Day NYC - Custom Tote Bag</h4>
+                    <p class="text-sm text-zinc-400">**Industry:** Retail/Service. Durable canvas tote bags with the Laundry Day NYC logo, perfect for customer convenience and brand exposure. **Focus:** Utility & Reusability.</p>
+                </div>
+                
+                <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-700 card-glow fade-in-section delay-300">
+                    <div class="h-48 rounded-lg mb-4 overflow-hidden flex items-center justify-center bg-zinc-800">
+                        <img 
+                            src="./assetsconsulting/birchwood.png" 
+                            alt="Birchwood NY Logo Product Mockup (Welcome Kit Item)" 
+                            class="w-full h-full object-cover no-select-drag" 
+                            onerror="this.onerror=null;this.src='https://placehold.co/400x300/3f3f46/d4d4d8?text=Birchwood+Kit'"
+                        >
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Birchwood NY - Branded Welcome Kit</h4>
+                    <p class="text-sm text-zinc-400">**Industry:** Hospitality/Tourism. Curated welcome kits for guests, including branded keychains and local guidebooks. **Focus:** Guest Experience & Detail.</p>
+                </div>
+                
+                <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-700 card-glow fade-in-section delay-400">
+                    <div class="h-48 rounded-lg mb-4 overflow-hidden flex items-center justify-center bg-zinc-800">
+                        <img 
+                            src="./assetsconsulting/ockonline.png" 
+                            alt="OCK Online Logo Product Mockup (Vape Case)" 
+                            class="w-full h-full object-cover no-select-drag" 
+                            onerror="this.onerror=null;this.src='https://placehold.co/400x300/3f3f46/d4d4d8?text=OCK+Vape+Case'"
+                        >
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">OCK Online - Custom Vape Case</h4>
+                    <p class="text-sm text-zinc-400">**Industry:** E-Commerce/Specialty. Sleek, protective vape cases with the OCK Online logo, enhancing portability and brand recognition. **Focus:** Protection & Style.</p>
+                </div>
+                
+                <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-700 card-glow fade-in-section delay-500">
+                    <div class="h-48 rounded-lg mb-4 overflow-hidden flex items-center justify-center bg-zinc-800">
+                        <img 
+                            src="https://placehold.co/400x300/3f3f46/34d399?text=Startup+Laptop+Sleeve" 
+                            alt="Conceptual Laptop Sleeve Mockup" 
+                            class="w-full h-full object-cover no-select-drag"
+                        >
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Tech Startup - Premium Laptop Sleeves</h4>
+                    <p class="text-sm text-zinc-400">**Industry:** Technology/SaaS. Custom-designed, eco-friendly padded sleeves for new employee welcome kits. **Focus:** High Perceived Value.</p>
+                </div>
+
+                <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-700 card-glow fade-in-section delay-600">
+                    <div class="h-48 rounded-lg mb-4 overflow-hidden flex items-center justify-center bg-zinc-800">
+                        <img 
+                            src="https://placehold.co/400x300/3f3f46/34d399?text=University+Water+Bottle" 
+                            alt="Conceptual University Water Bottle" 
+                            class="w-full h-full object-cover no-select-drag"
+                        >
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Prestigious University - Insulated Bottles</h4>
+                    <p class="text-sm text-zinc-400">**Industry:** Education. High-capacity, stainless steel insulated bottles for student orientation. **Focus:** Sustainability & Everyday Use.</p>
+                </div>
+                
+                <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-700 card-glow fade-in-section delay-700">
+                    <div class="h-48 rounded-lg mb-4 overflow-hidden flex items-center justify-center bg-zinc-800">
+                        <img 
+                            src="https://placehold.co/400x300/3f3f46/34d399?text=Finance+Branded+Planner" 
+                            alt="Conceptual Financial Planner/Notebook" 
+                            class="w-full h-full object-cover no-select-drag"
+                        >
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Financial Firm - Luxury Leather Planners</h4>
+                    <p class="text-sm text-zinc-400">**Industry:** Finance/Consulting. Debossed, high-end leather-bound planners for client appreciation gifts. **Focus:** Executive Quality & Tactile Feel.</p>
+                </div>
+
+                <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-700 card-glow fade-in-section delay-800">
+                    <div class="h-48 rounded-lg mb-4 overflow-hidden flex items-center justify-center bg-zinc-800">
+                        <img 
+                            src="https://placehold.co/400x300/3f3f46/34d399?text=Food+Service+Apparel" 
+                            alt="Conceptual Food Service Branded Apparel" 
+                            class="w-full h-full object-cover no-select-drag"
+                        >
+                    </div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Food Service Chain - Custom Crew Neck Sweaters</h4>
+                    <p class="text-sm text-zinc-400">**Industry:** Food & Beverage. Soft, durable cotton-blend crew neck sweaters for team uniforms. **Focus:** Comfort & Professional Look.</p>
+                </div>
+
+            </div>
+             <div class="flex justify-center mt-20 fade-in-section delay-900">
+                <a href="index.html#contact" class="px-10 py-4 text-xl font-bold text-zinc-900 bg-emerald-400 rounded-xl shadow-2xl shadow-emerald-500/30 hover:bg-emerald-300 transition duration-300 transform hover:scale-105 active:scale-95">
+                    Start Your Project Now
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-zinc-900 border-t border-zinc-700 mt-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-4 md:space-y-0">
+                <p class="text-zinc-400 text-sm">&copy; 2025 Safe Consulting. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="mailto:safeconsultingshop@gmail.com" class="text-zinc-400 hover:text-emerald-400 text-sm transition duration-300">safeconsultingshop@gmail.com</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Mobile Menu Toggle ---
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu on link click
+            const navLinks = mobileMenu.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // --- Scroll Visibility (Fade In Sections) ---
+            const sections = document.querySelectorAll('.fade-in-section');
+
+            const options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delayClass = Array.from(entry.target.classList).find(cls => cls.startsWith('delay-'));
+                        
+                        if (delayClass) {
+                            const delayMs = parseInt(delayClass.replace('delay-', ''), 10);
+                            setTimeout(() => {
+                                entry.target.classList.add('is-visible');
+                            }, delayMs);
+                        } else {
+                            entry.target.classList.add('is-visible');
+                        }
+                        
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        }); 
+    </script>
+</body>
+</html>

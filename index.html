@@ -13,9 +13,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f0f0f; /* Near-Black Charcoal Charcoal Background */
+            background-color: #0f0f0f; /* Near-Black Charcoal Background */
             color: #e4e4e7; /* Zinc-200 Light Text */
-            overflow-x: hidden; /* Prevent horizontal scroll from absolute positioning */
+            overflow-x: hidden; 
         }
         .nav-link {
             position: relative;
@@ -39,13 +39,12 @@
         .card-glow {
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
-        /* New Emerald Glow Effect */
         .card-glow:hover {
             transform: translateY(-5px);
             box-shadow: 0 25px 50px -12px rgba(52, 211, 153, 0.3), 0 10px 10px -5px rgba(52, 211, 153, 0.1);
-            border-color: #34d399; /* Emerald-400 */
+            border-color: #34d399; 
         }
-        /* Keyframe for subtle pulse effect */
+        
         @keyframes subtle-pulse {
             0%, 100% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.01); opacity: 0.98; }
@@ -54,11 +53,10 @@
             animation: subtle-pulse 4s infinite ease-in-out;
         }
         
-        /* --- Scroll Animation Enhancements (Sleek) --- */
+        /* --- Scroll Animation Enhancements --- */
         .fade-in-section {
             opacity: 0;
             transform: translateY(20px);
-            /* Increased duration for a smoother, sleeker fade-in */
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
         .fade-in-section.is-visible {
@@ -66,25 +64,23 @@
             transform: translateY(0);
         }
         
-        /* --- On-Load Hero Entrance Animation --- */
+        /* --- Hero Entrance Animation --- */
         @keyframes hero-entrance {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .hero-text-animate {
-            opacity: 0; /* Start hidden */
-            /* Staggered animation: 1s duration, 0.2s delay, stays at the end state (forwards) */
+            opacity: 0;
             animation: hero-entrance 1s ease-out 0.2s forwards;
         }
 
         .hero-p-animate {
-            opacity: 0; /* Start hidden */
-            /* Staggered animation: 1s duration, 0.5s delay */
+            opacity: 0;
             animation: hero-entrance 1s ease-out 0.5s forwards;
         }
 
-        /* Hero Section Background Glow Effect */
+        /* Hero Glow */
         .hero-glow-container {
             position: absolute;
             top: 0;
@@ -92,8 +88,8 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            pointer-events: none; /* Allow clicks to pass through */
-            z-index: 0; /* Keep it in the background */
+            pointer-events: none;
+            z-index: 0;
         }
 
         .hero-glow-orb {
@@ -107,124 +103,105 @@
             opacity: 0.85; 
         }
 
-        /* Keyframes for orb movement and fading */
         @keyframes moveAndFade {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.85;
-            }
-            33% {
-                transform: translate(30%, 60%) scale(1.2); 
-                opacity: 0.75;
-            }
-            66% {
-                transform: translate(80%, -30%) scale(0.9); 
-                opacity: 0.9;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.85;
-            }
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.85; }
+            33% { transform: translate(30%, 60%) scale(1.2); opacity: 0.75; }
+            66% { transform: translate(80%, -30%) scale(0.9); opacity: 0.9; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0.85; }
         }
 
-        /* Content should be above the glow */
-        .hero-content {
-            position: relative;
-            z-index: 10;
-        }
+        .hero-content { position: relative; z-index: 10; }
+        .no-select-drag { user-select: none; -webkit-user-drag: none; }
+        .aspect-4-3 { padding-top: 75%; }
 
-        /* Styles to prevent dragging and selection on images */
-        .no-select-drag {
-            user-select: none; 
-            -webkit-user-select: none; 
-            -webkit-user-drag: none; 
-            -moz-user-select: none; 
-            -ms-user-select: none; 
-        }
-        /* Custom aspect ratio class (4:3) */
-        .aspect-4-3 {
-            padding-top: 75%; 
-        }
-
-        /* --- LOGO GLITCH/STAGGER REVEAL (New Styles) --- */
-
-        /* Container to ensure words stay on one line and manages overflow */
-        .logo-container {
-            display: inline-flex;
-            overflow: hidden; 
-            line-height: 1; 
-        }
-
-        /* Initial state and transition for each word */
+        /* Logo Reveal */
+        .logo-container { display: inline-flex; overflow: hidden; line-height: 1; }
         .logo-glitch-reveal {
             opacity: 0;
             transform: translateY(10px) scale(0.95);
-            filter: blur(2px) contrast(1.2);
+            animation: glitch-snap 1.2s cubic-bezier(0.25, 0.45, 0.45, 0.94) forwards;
+        }
+        .logo-glitch-reveal:nth-child(2) { animation-delay: 0.2s; }
+        
+        @keyframes glitch-snap {
+            0% { opacity: 0; transform: translateY(15px) rotate(2deg) skewX(5deg); filter: blur(5px) contrast(1.5); }
+            100% { opacity: 1; transform: translateY(0) rotate(0) skewX(0); filter: blur(0) contrast(1); }
+        }
+        
+        /* --- UPDATED PREMIUM 3D CAROUSEL --- */
+        .carousel-container { perspective: 2000px; padding: 100px 0; }
+        .carousel-inner {
             position: relative;
-            /* Animation timing */
-            animation: glitch-snap 1.2s cubic-bezier(0.25, 0.45, 0.45, 0.94) forwards; /* Custom easing curve */
+            width: 340px;
+            height: 480px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .carousel-card {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            background: linear-gradient(145deg, rgba(25, 25, 25, 0.9) 0%, rgba(10, 10, 10, 0.95) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease;
         }
 
-        /* Set delay for the second word (Consulting) */
-        .logo-glitch-reveal:nth-child(2) {
-            animation-delay: 0.2s; /* Start Consulting slightly after Safe */
+        .card-img-wrap {
+            position: relative;
+            height: 220px;
+            border-radius: 16px;
+            background: #111;
+            margin-bottom: 24px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(52, 211, 153, 0.1);
         }
-        
-        /* Keyframes for glitch-snap effect (broken/put-back-together feel) */
-        @keyframes glitch-snap {
-            0% {
-                opacity: 0;
-                transform: translateY(15px) rotate(2deg) skewX(5deg);
-                filter: blur(5px) contrast(1.5);
-                text-shadow: 0 0 5px rgba(52, 211, 153, 0.5);
-            }
-            30% {
-                opacity: 0.5;
-                transform: translateY(-5px) rotate(-1deg) skewX(-2deg);
-                filter: blur(1px) contrast(1);
-            }
-            60% {
-                opacity: 1;
-                transform: translateY(2px) rotate(0.5deg) skewX(1deg);
-                filter: blur(0.5px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) rotate(0) skewX(0);
-                filter: blur(0) contrast(1);
-                text-shadow: none;
-            }
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
         }
-        
-        /* New Mobile Menu Item Styling (Vertical, Block-based) */
+
+        .card-1 { transform: rotateY(0deg) translateZ(450px); }
+        .card-2 { transform: rotateY(90deg) translateZ(450px); }
+        .card-3 { transform: rotateY(180deg) translateZ(450px); }
+        .card-4 { transform: rotateY(270deg) translateZ(450px); }
+
+        .carousel-inner:not([data-active="0"]) .card-1,
+        .carousel-inner:not([data-active="90"]) .card-2,
+        .carousel-inner:not([data-active="180"]) .card-3,
+        .carousel-inner:not([data-active="270"]) .card-4 {
+            opacity: 0.15;
+            filter: blur(5px) grayscale(100%);
+            pointer-events: none;
+        }
+
+        @media (max-width: 640px) {
+            .carousel-inner { width: 280px; height: 420px; }
+            .card-1 { transform: rotateY(0deg) translateZ(300px); }
+            .card-2 { transform: rotateY(90deg) translateZ(300px); }
+            .card-3 { transform: rotateY(180deg) translateZ(300px); }
+            .card-4 { transform: rotateY(270deg) translateZ(300px); }
+        }
+
         .mobile-nav-item {
             display: block;
-            padding: 0.75rem 1rem; /* p-3 p-4 equivalent */
-            border-radius: 0.5rem; /* rounded-xl equivalent */
-            font-weight: 500; /* font-medium equivalent */
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
             text-align: center;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-
-        /* Hover state for mobile items */
-        .mobile-nav-item:hover {
-            background-color: #34d399; /* Emerald-400 */
-            color: #1f2937; /* Gray-900 */
-        }
-
-        /* Active/Current item style for emphasis */
-        .mobile-nav-item:first-child { 
-            background-color: #065f46; /* Emerald-800 */
-            color: #ffffff; /* White */
-        }
-        
-        /* Force the whole menu to span width and center text */
-        #mobile-menu a {
-            display: block;
-            width: 100%;
-            text-align: center;
-        }
-
+        .mobile-nav-item:hover { background-color: #34d399; color: #1f2937; }
     </style>
 </head>
 <body class="antialiased">
@@ -232,41 +209,32 @@
     <header class="sticky top-0 z-50 bg-zinc-900/95 backdrop-blur-sm shadow-xl">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex justify-between items-center">
-                
                 <a href="#home" class="text-2xl font-extrabold tracking-tight logo-container flex items-center">
                     <div class="hidden sm:inline-flex logo-container">
                         <span class="logo-glitch-reveal text-emerald-400">Safe</span>
                         <span class="logo-glitch-reveal text-white ml-2">Consulting</span>
                     </div>
-
-                    <img 
-                        src="./assetsconsulting/favicon.png" 
-                        alt="Safe Consulting Logo" 
-                        class="w-10 h-8 sm:hidden logo-glitch-reveal" 
-                        style="animation-delay: 0.2s;"
-                    >
+                    <img src="./assetsconsulting/favicon.png" alt="Safe Logo" class="w-10 h-8 sm:hidden logo-glitch-reveal">
                 </a>
 
                 <div class="hidden lg:flex space-x-8 text-lg font-medium">
                     <a href="#services" class="nav-link hover:text-emerald-400">Our Services</a>
                     <a href="#value" class="nav-link hover:text-emerald-400">The Safe Edge</a>
-                    <a href="#portfolio" class="nav-link hover:text-emerald-400">Portfolio Showcase</a>
+                    <a href="#portfolio" class="nav-link hover:text-emerald-400">Portfolio</a>
                     <a href="#contact" class="nav-link hover:text-emerald-400">Contact Us</a>
                 </div>
 
                 <div class="lg:hidden">
-                    <button id="menu-button" class="cursor-pointer p-2 transition duration-300 hover:text-emerald-400" aria-label="Toggle navigation menu">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
+                    <button id="menu-button" class="cursor-pointer p-2 hover:text-emerald-400">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
                 </div>
             </div>
             
-            <div id="mobile-menu" class="hidden lg:hidden flex-col space-y-2 mt-4 w-full p-4 bg-zinc-800 rounded-xl shadow-2xl border border-zinc-700 transition-all duration-300 ease-in-out">
+            <div id="mobile-menu" class="hidden lg:hidden flex-col space-y-2 mt-4 w-full p-4 bg-zinc-800 rounded-xl border border-zinc-700">
                 <a href="#services" class="mobile-nav-item text-gray-100 bg-zinc-700/50">Our Services</a>
                 <a href="#value" class="mobile-nav-item text-gray-100 bg-zinc-700/50">The Safe Edge</a>
-                <a href="#portfolio" class="mobile-nav-item text-gray-100 bg-zinc-700/50">Portfolio Showcase</a>
+                <a href="#portfolio" class="mobile-nav-item text-gray-100 bg-zinc-700/50">Portfolio</a>
                 <a href="#contact" class="mobile-nav-item text-gray-100 bg-zinc-700/50">Contact Us</a>
             </div>
         </nav>
@@ -274,323 +242,206 @@
     
     <main class="max-w-7xl mx-auto">
 
-        <section id="home" class="relative py-24 lg:py-40 px-4 sm:px-6 lg:px-8 text-center bg-zinc-900 border-b border-emerald-500/20">
-            
-            <div class="hero-glow-container">
-                <div class="hero-glow-orb"></div>
-            </div>
-
-            <div class="max-w-4xl mx-auto hero-content"> <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-snug text-white mb-6 animate-subtle-pulse hero-text-animate">
+        <section id="home" class="relative py-24 lg:py-40 px-4 text-center bg-zinc-900 border-b border-emerald-500/20">
+            <div class="hero-glow-container"><div class="hero-glow-orb"></div></div>
+            <div class="max-w-4xl mx-auto hero-content"> 
+                <h1 class="text-4xl sm:text-7xl font-extrabold text-white mb-6 animate-subtle-pulse hero-text-animate">
                     Swag That Speaks Volumes. <span class="text-emerald-400">On Budget.</span>
                 </h1>
                 <p class="text-xl sm:text-2xl text-zinc-300 mb-10 hero-p-animate">
-                    We partner with ambitious startups, prestigious universities, and growing companies to conceptualize and create truly memorable, high-quality products that serve as the ultimate custom swag.
+                    Startups, universities, and growing companies trust us to conceptualize and create truly memorable, high-quality custom swag.
                 </p>
-                <a href="#contact" class="inline-block px-12 py-4 text-xl font-bold text-zinc-900 bg-emerald-400 rounded-xl shadow-2xl shadow-emerald-500/30 hover:bg-emerald-300 transition duration-300 transform hover:scale-[1.05] active:scale-95 hero-p-animate">
+                <a href="#contact" class="inline-block px-12 py-4 text-xl font-bold text-zinc-900 bg-emerald-400 rounded-xl shadow-2xl shadow-emerald-500/30 hover:bg-emerald-300 transition transform hover:scale-105 active:scale-95 hero-p-animate">
                     Start Your Swag Project
                 </a>
             </div>
         </section>
 
-        <section id="services" class="py-20 px-4 sm:px-6 lg:px-8 bg-zinc-950 fade-in-section">
+        <section id="services" class="py-20 px-4 bg-zinc-950 fade-in-section">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">Our End-to-End Swag Creation Process</h2>
-                <p class="text-xl text-zinc-400">From concept development to final product delivery—we offer a streamlined experience.</p>
+                <h2 class="text-4xl font-bold text-white mb-4">Our End-to-End Swag Process</h2>
+                <p class="text-xl text-zinc-400">Streamlined from concept development to final product delivery.</p>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
                 <div class="bg-zinc-900 p-8 rounded-2xl shadow-lg card-glow border border-zinc-700 fade-in-section delay-100">
-                    <div class="text-emerald-400 mb-4">
-                        <svg class="w-10 h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v14c-1.745-.308-3.522-.5-5.32-.5-3.048 0-5.83.94-8.08 2.5zM21 6v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2h12a2 2 0 012 2z"></path></svg>
-                    </div>
                     <h3 class="text-2xl font-semibold text-white mb-4">1. Conceptualize</h3>
-                    <p class="text-zinc-300">
-                        We transform your brand goals into tangible product ideas. Our focus is on relevance and impact, ensuring every piece of swag tells your story.
-                    </p>
+                    <p class="text-zinc-300">We transform your brand goals into tangible product ideas that tell your story.</p>
                 </div>
-
                 <div class="bg-zinc-900 p-8 rounded-2xl shadow-lg card-glow border border-zinc-700 fade-in-section delay-300">
-                    <div class="text-emerald-400 mb-4">
-                        <svg class="w-10 h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2zm7-2l-3-3m0 0l-3-3m3 3L7 9m6 0h.01"></path></svg>
-                    </div>
                     <h3 class="text-2xl font-semibold text-white mb-4">2. Customize</h3>
-                    <p class="text-zinc-300">
-                        Precision customization of materials, colors, and branding details. We handle all proofs and prototyping for a flawless execution of your vision.
-                    </p>
+                    <p class="text-zinc-300">Precision customization and prototyping for a flawless execution of your vision.</p>
                 </div>
-
                 <div class="bg-zinc-900 p-8 rounded-2xl shadow-lg card-glow border border-zinc-700 fade-in-section delay-500">
-                    <div class="text-emerald-400 mb-4">
-                        <svg class="w-10 h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm10-5a.5.5 0 11-1 0 .5.5 0 011 0z"></path></svg>
-                    </div>
                     <h3 class="text-2xl font-semibold text-white mb-4">3. Create & Deliver</h3>
-                    <p class="text-zinc-300">
-                        We leverage our vetted supply chain for manufacturing, rigorous QC, packaging, and global logistics, delivering high-quality swag straight to your door.
-                    </p>
+                    <p class="text-zinc-300">Manufacturing, rigorous QC, and global logistics delivered straight to your door.</p>
                 </div>
-
             </div>
         </section>
 
-        <section id="value" class="py-20 px-4 sm:px-6 lg:px-8 bg-zinc-900 fade-in-section">
+        <section id="value" class="py-20 px-4 bg-zinc-900 fade-in-section">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="lg:order-2">
                     <h2 class="text-4xl font-bold text-white mb-6">Why Choose <span class="text-emerald-400">Safe Consulting</span>?</h2>
-                    <p class="text-xl text-zinc-300 mb-8">
-                        Our name is synonymous with reliability. We remove the uncertainty from product procurement by ensuring clarity, quality, and complete budget certainty from concept to completion.
-                    </p>
-
                     <ul class="space-y-6">
                         <li class="flex items-start fade-in-section delay-100">
-                            <svg class="w-6 h-6 text-emerald-400 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div class="text-emerald-400 mr-3 mt-1">✓</div>
                             <div>
                                 <h4 class="text-xl font-semibold text-white">Guaranteed Budget Adherence</h4>
-                                <p class="text-zinc-400">Your budget is our primary constraint. We design and deliver products that meet your financial goals, always.</p>
+                                <p class="text-zinc-400">We design and deliver products that meet your financial goals, always.</p>
                             </div>
                         </li>
                         <li class="flex items-start fade-in-section delay-200">
-                            <svg class="w-6 h-6 text-emerald-400 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2v5m0 0H9m7.414-7.414A2 2 0 0012 7.172V5a2 2 0 00-2-2H7a2 2 0 00-2 2v4a2 2 0 002 2h3m5-7a2 2 0 002 2h3a2 2 0 002-2V5a2 2 0 00-2-2h-3a2 2 0 00-2 2v4z"></path></svg>
+                            <div class="text-emerald-400 mr-3 mt-1">✓</div>
                             <div>
-                                <h4 class="text-xl font-semibold text-white">Strategic & Useful Products</h4>
-                                <p class="text-zinc-400">We advise on high-utility products that recipients will keep and use, maximizing your brand's longevity.</p>
-                            </div>
-                        </li>
-                        <li class="flex items-start fade-in-section delay-300">
-                            <svg class="w-6 h-6 text-emerald-400 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2m-2 4h2m-2 4h2M9 4h2m-2 4h2m-2 4h2m-2 4h2"></path></svg>
-                            <div>
-                                <h4 class="text-xl font-semibold text-white">Vetted Supplier Network</h4>
-                                <p class="text-zinc-400">Access our exclusive network of reliable, quality-focused manufacturers, eliminating the typical sourcing risks.</p>
+                                <h4 class="text-xl font-semibold text-white">Strategic Utility</h4>
+                                <p class="text-zinc-400">High-utility products that recipients will keep, maximizing brand longevity.</p>
                             </div>
                         </li>
                     </ul>
                 </div>
-
                 <div class="lg:order-1 flex items-center justify-center">
                     <div class="w-full relative rounded-2xl border-4 border-emerald-500/50 shadow-2xl overflow-hidden fade-in-section">
                         <div class="relative aspect-4-3">
-                            <img 
-                                src="./assetsconsulting/thinkinggif.gif" 
-                                alt="Animated GIF of a person thinking, representing strategic thought" 
-                                class="absolute inset-0 w-full h-full object-cover no-select-drag rounded-xl"
-                                onerror="this.onerror=null;this.src='https://placehold.co/800x600/3f3f46/d4d4d8?text=Thinking+GIF+Loading+Error'"
-                            >
+                            <img src="./assetsconsulting/thinkinggif.gif" alt="Thinking" class="absolute inset-0 w-full h-full object-cover no-select-drag rounded-xl">
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="portfolio" class="py-20 px-4 sm:px-6 lg:px-8 bg-zinc-950 fade-in-section">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">Our Track Record</h2>
-                <p class="text-xl text-zinc-400 max-w-3xl mx-auto">
-                    We turn everyday items into powerful brand ambassadors. Here are some client successes.
-                </p>
+        <section id="portfolio" class="py-32 px-4 bg-zinc-950/50 fade-in-section overflow-hidden">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold text-white mb-4">The Flagship Series</h2>
+                <p class="text-zinc-500 uppercase tracking-widest text-xs font-semibold">Swipe or use arrows to explore concepts</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-700 card-glow fade-in-section delay-100">
-                    <div class="h-32 rounded-lg mb-4 overflow-hidden flex items-center justify-center bg-zinc-800"> 
-                        <img 
-                            src="./assetsconsulting/levant.png" 
-                            alt="Levant Logo Product Mockup (Construction Hard Hat)" 
-                            class="w-full h-full object-cover no-select-drag" 
-                            onerror="this.onerror=null;this.src='https://placehold.co/128x128/3f3f46/d4d4d8?text=Levant+Logo'"
-                        >
+            <div class="carousel-container">
+                <div id="productCarousel" class="carousel-inner" data-active="0">
+                    
+                    <div class="carousel-card card-1 group">
+                        <div class="card-img-wrap">
+                            <img src="./assetsconsulting/levant.png" alt="Levant">
+                        </div>
+                        <div class="flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-white mb-1">Levant</h3>
+                            <p class="text-emerald-500 text-xs font-mono uppercase tracking-tighter mb-4">Safety Concepts</p>
+                            <p class="text-zinc-400 text-sm leading-relaxed">Premium industrial headwear where construction safety meets executive branding.</p>
+                            <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center">
+                                <span class="text-[10px] text-zinc-500 uppercase tracking-widest">Model: L-PRO</span>
+                                <div class="w-8 h-[1px] bg-emerald-500"></div>
+                            </div>
+                        </div>
                     </div>
-                    <h4 class="text-xl font-semibold mb-2 text-white">Levant - Branded Hard Hat</h4>
-                    <p class="text-sm text-zinc-400">High-quality, customizable hard hats with the Levant logo for site safety and brand visibility.</p>
-                </div>
-                
-                <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-700 card-glow fade-in-section delay-200">
-                    <div class="h-32 rounded-lg mb-4 overflow-hidden flex items-center justify-center bg-zinc-800">
-                        <img 
-                            src="./assetsconsulting/laundryday.png" 
-                            alt="Laundry Day NYC Logo Product Mockup (Tote Bag)" 
-                            class="w-full h-full object-cover no-select-drag" 
-                            onerror="this.onerror=null;this.src='https://placehold.co/128x128/3f3f46/d4d4d8?text=Laundry+Day+Logo'"
-                        >
+
+                    <div class="carousel-card card-2 group">
+                        <div class="card-img-wrap">
+                            <img src="./assetsconsulting/laundryday.png" alt="Laundry Day">
+                        </div>
+                        <div class="flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-white mb-1">Laundry Day</h3>
+                            <p class="text-emerald-500 text-xs font-mono uppercase tracking-tighter mb-4">Urban Retail</p>
+                            <p class="text-zinc-400 text-sm leading-relaxed">Modern urban carryalls built for durability and high-frequency brand visibility.</p>
+                            <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center">
+                                <span class="text-[10px] text-zinc-500 uppercase tracking-widest">Model: LD-X1</span>
+                                <div class="w-8 h-[1px] bg-emerald-500"></div>
+                            </div>
+                        </div>
                     </div>
-                    <h4 class="text-xl font-semibold mb-2 text-white">Laundry Day NYC - Custom Tote Bag</h4>
-                    <p class="text-sm text-zinc-400">Durable canvas tote bags with the Laundry Day NYC logo, perfect for customer convenience and brand exposure.</p>
-                </div>
-                
-                <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-700 card-glow fade-in-section delay-300">
-                    <div class="h-32 rounded-lg mb-4 overflow-hidden flex items-center justify-center bg-zinc-800">
-                        <img 
-                            src="./assetsconsulting/birchwood.png" 
-                            alt="Birchwood NY Logo Product Mockup (Welcome Kit Item)" 
-                            class="w-full h-full object-cover no-select-drag" 
-                            onerror="this.onerror=null;this.src='https://placehold.co/128x128/3f3f46/d4d4d8?text=Birchwood+Logo'"
-                        >
+
+                    <div class="carousel-card card-3 group">
+                        <div class="card-img-wrap">
+                            <img src="./assetsconsulting/birchwood.png" alt="Birchwood">
+                        </div>
+                        <div class="flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-white mb-1">Birchwood</h3>
+                            <p class="text-emerald-500 text-xs font-mono uppercase tracking-tighter mb-4">Hospitality Suite</p>
+                            <p class="text-zinc-400 text-sm leading-relaxed">Luxury welcome products that redefine the guest arrival experience.</p>
+                            <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center">
+                                <span class="text-[10px] text-zinc-500 uppercase tracking-widest">Model: B-LUX</span>
+                                <div class="w-8 h-[1px] bg-emerald-500"></div>
+                            </div>
+                        </div>
                     </div>
-                    <h4 class="text-xl font-semibold mb-2 text-white">Birchwood NY - Branded Welcome Kit</h4>
-                    <p class="text-sm text-zinc-400">Curated welcome kits for guests, including branded keychains and local guidebooks featuring the Birchwood NY logo.</p>
-                </div>
-                
-                <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-700 card-glow fade-in-section delay-400">
-                    <div class="h-32 rounded-lg mb-4 overflow-hidden flex items-center justify-center bg-zinc-800">
-                        <img 
-                            src="./assetsconsulting/ockonline.png" 
-                            alt="OCK Online Logo Product Mockup (Vape Case)" 
-                            class="w-full h-full object-cover no-select-drag" 
-                            onerror="this.onerror=null;this.src='https://placehold.co/128x128/3f3f46/d4d4d8?text=OCK+Logo'"
-                        >
+
+                    <div class="carousel-card card-4 group">
+                        <div class="card-img-wrap">
+                            <img src="./assetsconsulting/ockonline.png" alt="OCK Online">
+                        </div>
+                        <div class="flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-white mb-1">OCK Online</h3>
+                            <p class="text-emerald-500 text-xs font-mono uppercase tracking-tighter mb-4">Tech Hardware</p>
+                            <p class="text-zinc-400 text-sm leading-relaxed">Minimalist protective accessories for the modern mobile workforce.</p>
+                            <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center">
+                                <span class="text-[10px] text-zinc-500 uppercase tracking-widest">Model: OCK-09</span>
+                                <div class="w-8 h-[1px] bg-emerald-500"></div>
+                            </div>
+                        </div>
                     </div>
-                    <h4 class="text-xl font-semibold mb-2 text-white">OCK Online - Custom Vape Case</h4>
-                    <p class="text-sm text-zinc-400">Sleek, protective vape cases with the OCK Online logo, enhancing portability and brand recognition.</p>
                 </div>
             </div>
-             <div class="flex justify-center mt-12">
-                <a href="#contact" class="px-8 py-3 text-lg font-bold text-zinc-900 bg-emerald-500 rounded-xl shadow-lg shadow-emerald-500/40 hover:bg-emerald-400 transition duration-300 transform hover:scale-105 active:scale-95 fade-in-section delay-500">
-                    View More Case Studies
-                </a>
+
+            <div class="flex justify-center items-center gap-12 mt-4">
+                <button onclick="rotateCarousel('prev')" class="group p-5 rounded-full border border-white/10 hover:border-emerald-500 transition-all bg-zinc-900/50 backdrop-blur-sm">
+                    <span class="text-zinc-500 group-hover:text-emerald-500 transition-colors">←</span>
+                </button>
+                <a href="game.html" class="text-xs uppercase tracking-[0.3em] font-bold text-emerald-400 hover:text-white transition-colors border-b border-emerald-500/30 pb-1">Catalog Access</a>
+                <button onclick="rotateCarousel('next')" class="group p-5 rounded-full border border-white/10 hover:border-emerald-500 transition-all bg-zinc-900/50 backdrop-blur-sm">
+                    <span class="text-zinc-500 group-hover:text-emerald-500 transition-colors">→</span>
+                </button>
             </div>
         </section>
 
-        <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 bg-zinc-800 rounded-t-[3rem] shadow-inner border-t border-emerald-500/30 fade-in-section">
-            <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold text-white mb-4">Request a Budget-Aligned Proposal</h2>
-                    <p class="text-xl text-zinc-300">Share your vision and budget. We'll be in touch within one business day with relevant ideas.</p>
-                </div>
-
-                <form id="contactForm" class="space-y-6 bg-zinc-900 p-8 rounded-2xl shadow-2xl border border-zinc-700">
+        <section id="contact" class="py-20 px-4 bg-zinc-800 rounded-t-[3rem] border-t border-emerald-500/30 fade-in-section">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl font-bold text-white mb-8">Request a Budget-Aligned Proposal</h2>
+                <form id="contactForm" class="space-y-6 bg-zinc-900 p-8 rounded-2xl border border-zinc-700 text-left">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-zinc-200 mb-1">Your Name</label>
-                            <input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-zinc-700 border border-zinc-600 rounded-lg text-white focus:ring-emerald-500 focus:border-emerald-500 transition duration-150">
-                        </div>
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-zinc-200 mb-1">Work Email</label>
-                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 bg-zinc-700 border border-zinc-600 rounded-lg text-white focus:ring-emerald-500 focus:border-emerald-500 transition duration-150">
-                        </div>
+                        <input type="text" placeholder="Name" required class="w-full px-4 py-3 bg-zinc-700 border border-zinc-600 rounded-lg text-white focus:ring-emerald-500">
+                        <input type="email" placeholder="Email" required class="w-full px-4 py-3 bg-zinc-700 border border-zinc-600 rounded-lg text-white focus:ring-emerald-500">
                     </div>
-
-                    <div>
-                        <label for="company" class="block text-sm font-medium text-zinc-200 mb-1">Company / Organization</label>
-                        <input type="text" id="company" name="company" required class="w-full px-4 py-3 bg-zinc-700 border border-zinc-600 rounded-lg text-white focus:ring-emerald-500 focus:border-emerald-500 transition duration-150">
-                    </div>
-
-                    <div>
-                        <label for="budget" class="block text-sm font-medium text-zinc-200 mb-1">Estimated Budget (Helpful for faster turnaround)</label>
-                        <select id="budget" name="budget" class="w-full px-4 py-3 bg-zinc-700 border border-zinc-600 rounded-lg text-white focus:ring-emerald-500 focus:border-emerald-500 transition duration-150 appearance-none">
-                            <option value="">Select a range...</option>
-                            <option value="under5k">Under $5,000</option>
-                            <option value="5k-15k">$5,000 - $15,000</option>
-                            <option value="15k-30k">$15,000 - $30,000</option>
-                            <option value="30kplus">$30,000+</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="message" class="block text-sm font-medium text-zinc-200 mb-1">Project Details / Message</label>
-                        <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 bg-zinc-700 border border-zinc-600 rounded-lg text-white focus:ring-emerald-500 focus:border-emerald-500 transition duration-150"></textarea>
-                    </div>
-
-                    <div class="flex justify-center">
-                        <button type="submit" class="px-10 py-3 text-lg font-bold text-zinc-900 bg-emerald-400 rounded-xl shadow-lg shadow-emerald-500/40 hover:bg-emerald-300 transition duration-300 transform hover:scale-105 active:scale-95">
-                            Submit Inquiry
-                        </button>
-                    </div>
-                    <p id="formStatus" class="text-center text-sm font-semibold pt-4 text-emerald-400 hidden">Thank you for your inquiry! We will be in touch shortly.</p>
+                    <textarea placeholder="Details" rows="4" class="w-full px-4 py-3 bg-zinc-700 border border-zinc-600 rounded-lg text-white focus:ring-emerald-500"></textarea>
+                    <button type="submit" class="w-full py-4 text-zinc-900 bg-emerald-400 font-bold rounded-xl hover:bg-emerald-300">Submit Inquiry</button>
+                    <p id="formStatus" class="text-center text-emerald-400 hidden mt-4">Thank you! We'll be in touch.</p>
                 </form>
             </div>
         </section>
 
     </main>
 
-    <footer class="bg-zinc-900 border-t border-zinc-700 mt-0">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-4 md:space-y-0">
-                <p class="text-zinc-400 text-sm">&copy; 2025 Safe Consulting. All rights reserved.</p>
-                <div class="flex space-x-6">
-                    <a href="#" class="text-zinc-400 hover:text-emerald-400 text-sm transition duration-300">Privacy Policy</a>
-                    <a href="#" class="text-zinc-400 hover:text-emerald-400 text-sm transition duration-300">Terms of Service</a>
-                </div>
-            </div>
-        </div>
+    <footer class="bg-zinc-900 py-10 text-center border-t border-zinc-700">
+        <p class="text-zinc-400 text-sm">&copy; 2025 Safe Consulting. safeconsultingshop@gmail.com</p>
     </footer>
 
     <script>
+        // Rotating Logic
+        let rotation = 0;
+        const carousel = document.getElementById('productCarousel');
+
+        function rotateCarousel(direction) {
+            if (direction === 'next') rotation -= 90;
+            else rotation += 90;
+            carousel.setAttribute('data-active', Math.abs(rotation % 360));
+            carousel.style.transform = `rotateY(${rotation}deg)`;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- Mobile Menu Toggle ---
-            const menuButton = document.getElementById('menu-button');
+            // Mobile Menu
+            const menuBtn = document.getElementById('menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-            menuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Close mobile menu on link click
-            const navLinks = mobileMenu.querySelectorAll('a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-
-            // --- Scroll Visibility (Fade In Sections) ---
-            const sections = document.querySelectorAll('.fade-in-section');
-
-            const options = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            const observer = new IntersectionObserver((entries, observer) => {
+            // Fade In Sections
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // Check if the element has a delay class (e.g., delay-100, delay-200)
-                        const delayClass = Array.from(entry.target.classList).find(cls => cls.startsWith('delay-'));
-                        
-                        // Apply 'is-visible' directly or after a timeout based on the delay class
-                        if (delayClass) {
-                            // Extract delay time in ms (e.g., 'delay-300' -> 300)
-                            const delayMs = parseInt(delayClass.replace('delay-', ''), 10);
-                            setTimeout(() => {
-                                entry.target.classList.add('is-visible');
-                            }, delayMs);
-                        } else {
-                            entry.target.classList.add('is-visible');
-                        }
-                        
-                        observer.unobserve(entry.target);
-                    }
+                    if (entry.isIntersecting) entry.target.classList.add('is-visible');
                 });
-            }, options);
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in-section').forEach(s => observer.observe(s));
 
-            sections.forEach(section => {
-                // The observer handles visibility and staggered delay for scroll-in elements
-                observer.observe(section);
-            });
-            
-            // --- Contact Form Submission (Placeholder) ---
-            const contactForm = document.getElementById('contactForm');
-            const formStatus = document.getElementById('formStatus');
-
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(event) {
-                    event.preventDefault(); 
-                    
-                    // Display success message
-                    formStatus.classList.remove('hidden');
-                    
-                    // Optional: Clear form fields
-                    this.reset();
-                    
-                    // Optional: Hide success message after a few seconds
-                    setTimeout(() => {
-                        formStatus.classList.add('hidden');
-                    }, 5000);
-                });
-            }
-
-        }); // End DOMContentLoaded
+            // Auto Rotation
+            let autoRotate = setInterval(() => rotateCarousel('next'), 6000);
+            carousel.addEventListener('mousedown', () => clearInterval(autoRotate));
+        });
     </script>
 </body>
 </html>
